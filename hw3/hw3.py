@@ -7,61 +7,66 @@
 # Має бути 4 функції: отримання вводу користувача, перевірка ввідних даних,
 # обчислення значень, вивід їх.
 
-months = [
-    "January", "February", "March", "April",
-    "May", "June", "July", "August",
-    "September", "October", "November", "December"
-]
+def get_input():
+    return input("Enter mm values for each month: ").split()
 
 
-def a():
-    data = input().split()
-
-    if len(data) != 12:
-        raise ValueError
+def check_input(numbers_str):
+    if len(numbers_str) != 12:
+        print("Enter 12 values")
+        exit()
 
     numbers = []
 
-    for x in data:
+    for val in numbers_str:
         try:
-            numbers.append(float(x))
-        except:
-            raise ValueError
+            number = float(val)
+        except ValueError:
+            print("Not a number")
+            exit()
+
+        if number < 0:
+            print("Negative value")
+            exit()
+
+        numbers.append(number)
 
     return numbers
 
 
-def b(info):
-    pass
+def calculate_values(numbers):
+    months = [
+        "January", "February", "March", "April",
+        "May", "June", "July", "August",
+        "September", "October", "November", "December"
+    ]
 
+    total = sum(numbers)
+    annual_average = total / 12
 
-def c(info):
-    total = sum(info)
-    average = total / len(info)
+    max_value = max(numbers)
+    max_index = numbers.index(max_value)
 
-    max_value = max(info)
-    min_value = min(info)
-
-    max_month = months[info.index(max_value)]
-    min_month = months[info.index(min_value)]
+    min_value = min(numbers)
+    min_index = numbers.index(min_value)
 
     return (
         total,
-        average,
-        (max_value, max_month),
-        (min_value, min_month)
+        annual_average,
+        (max_value, months[max_index]),
+        (min_value, months[min_index])
     )
 
 
-def d(result):
+def print_results(result):
     print(result)
 
 
 def main():
-    info = a()
-    b(info)
-    result = c(info)
-    d(result)
+    info = get_input()
+    numbers = check_input(info)
+    result = calculate_values(numbers)
+    print_results(result)
 
 
 main()
